@@ -1,27 +1,17 @@
-import { Body, Controller, Get, Post, SetMetadata, UseGuards } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
-import { User } from '../../interfaces/user.interface';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from '../../guards/auth.guard';
+import {  ApiTags } from '@nestjs/swagger';
 import { Role } from '../role/role.decorator';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('user')
 @ApiTags("用户模块")
-@UseGuards(AuthGuard)
 export class UserController {
   constructor(private userService: UserService){}
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  @Post('regist')
-  @ApiOperation({
-    summary: "用户注册"
-  })
-  async registUser(@Body() userDto: User){
-    return await this.userService.regist(userDto);
-  }
-
   @Get("hello")
   @Role('admin')
+  @UseGuards(AuthGuard('jwt'))
   hello():string{
     return "hello world"
   }

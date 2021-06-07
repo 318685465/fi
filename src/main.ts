@@ -20,6 +20,10 @@ const bootstrap = async () =>  {
     .setTitle('项目管理平台')
     .setDescription('xxxx平台接口文档')
     .setVersion('1.0')
+    .addBearerAuth(
+      {type: "http", scheme: "bearer", bearerFormat: 'JWT'},
+      'jwt'
+    )
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('swagger-ui', app, document);
