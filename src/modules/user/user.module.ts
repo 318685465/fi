@@ -4,15 +4,7 @@ import { UserController } from './user.controller';
 import { HashPasswordMiddleware } from '../../middlewares/hash-password.middleware';
 
 @Module({
-  providers: [
-    UserService
-  ],
-  controllers: [UserController]
+  providers: [UserService],
+  controllers: [UserController],
 })
-export class UserModule implements NestModule {
-  configure(consumer: MiddlewareConsumer){
-    consumer
-    .apply(HashPasswordMiddleware)
-    .forRoutes('user/regist')
-  }
-}
+export class UserModule {}
