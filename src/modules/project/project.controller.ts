@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Project } from 'src/interfaces/project.interface';
@@ -44,5 +44,13 @@ export class ProjectController {
   })
   public findProject(@Param('id') projectId: string) {
     return this.projectService.findProjectById(projectId);
+  }
+
+  @Get("project")
+  @ApiOperation({
+    summary: "获取所有项目"
+  })
+  public getAllProject(){
+    return this.projectService.getProject();
   }
 }

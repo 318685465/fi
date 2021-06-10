@@ -83,4 +83,18 @@ export class ProjectService {
     }
     return this.response;
   }
+
+  public async getProject(){
+    try {
+      const _project = (await this.projectModel.find({})).map(v => {
+        const date: Date = v._id.getTimestamp();
+        v['date'] = date.toLocaleString();
+        return v;
+      })
+      this.response = { code: 0, msg: _project };
+    } catch (error) {
+      this.response = { code: 7, msg: "查询项目失败" }
+    }
+    return this.response;
+  }
 }

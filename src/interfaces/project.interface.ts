@@ -13,6 +13,13 @@ export class Project extends Document {
 
   @Prop()
   @ApiProperty({
+    description: '项目创建日期',
+    example: '2021/06/11 23:06:30',
+  })
+  date: string;
+
+  @Prop()
+  @ApiProperty({
     description: '项目简介',
     example: '实验小学简介',
   })
@@ -24,4 +31,18 @@ export class Project extends Document {
     example: '123',
   })
   readonly creatorId: string;
+
+  @Prop()
+  @ApiProperty({
+    description: '项目地址',
+    example: '华富路5001号',
+  })
+  readonly address: string;
+
+  @Prop()
+  @ApiProperty({
+    description: '阶段',
+    example: '施工中',
+  })
+  readonly stage: string;
 }
