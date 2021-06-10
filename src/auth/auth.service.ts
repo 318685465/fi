@@ -6,12 +6,15 @@ import { IResponse } from 'src/interfaces/response.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
+import * as svgCaptcha from 'svg-captcha';
 
 const logger = new Logger('auth.service');
 
 @Injectable()
 export class AuthService {
   private response: IResponse;
+  private pointer: number = 0;
+  private captchas = {};
   constructor(
     @InjectModel('USER_MODEL') private readonly userModel: Model<User>,
     private readonly userService: UserService,
@@ -121,6 +124,7 @@ export class AuthService {
       })
       .catch(err => {
         logger.log(`${user.phone}：${err.msg}`);
+        return err;
       });
   }
 
@@ -153,5 +157,48 @@ export class AuthService {
    */
   private async createToken(user: User) {
     return this.jwtService.sign(user);
+  }
+
+  /**
+   * @description 创建验证码
+   * @date 10/06/2021
+   * @param {string} [id]
+   * @return {*}
+   * @memberof AuthService
+   */
+  public async createCaptcha(id?: string) {
+    console.log(id);
+    if (id != '-1') {
+      delete this.captchas[id];
+      console.log(`删除了id为${id}的记录`);
+    }
+    const c = svgCaptcha.create();
+    this.captchas[this.pointer] = c.text;
+    this.response = {
+      code: 0,
+      msg: {
+        id: this.pointer++,
+        img: c.data,
+      },
+    };
+    return this.response;
+  }
+
+  public async verification(captcha: string, id: string) {
+    console.log(`this.captcha: ${JSON.stringify(this.captchas)}`);
+    console.log(`captcha: ${captcha}`);
+    console.log(`id: ${id}`);
+    if (this.captchas[id] === captcha.toLocaleLowerCase) {
+      this.response = {
+        code: 0,
+        msg: '验证通过',
+      };
+    } else {
+      this.response = {
+        code: -5,
+        msg: '验证码错误',
+      };
+    }
+    return this.response;
   }
 }
