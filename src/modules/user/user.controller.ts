@@ -11,9 +11,4 @@ import { AuthGuard } from '@nestjs/passport';
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @Get('hello')
-  @Role('admin')
-  hello() {
-    return this.userService.hello();
-  }
 }

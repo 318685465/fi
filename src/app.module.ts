@@ -7,6 +7,7 @@ import { Log4jsModule } from '@nestx-log4js/core';
 import { AuthModule } from './auth/auth.module';
 import { RedisModule, RedisModuleOptions } from 'nestjs-redis';
 import { ProjectModule } from './modules/project/project.module';
+import { ProfileModule } from './modules/profile/profile.module';
 
 const options: RedisModuleOptions = {
   port: 6379,
@@ -22,6 +23,7 @@ const options: RedisModuleOptions = {
     AuthModule,
     RedisModule.register(options),
     ProjectModule,
+    ProfileModule,
   ],
   controllers: [AppController],
   providers: [AppService],

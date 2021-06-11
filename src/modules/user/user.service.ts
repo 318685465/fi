@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { RedisService } from 'nestjs-redis';
-import { User } from '../../interfaces/user.interface';
+import { IUserProject, User } from '../../interfaces/user.interface';
 import * as Redis from 'ioredis';
 
 @Injectable()
@@ -29,10 +29,17 @@ export class UserService {
     });
   }
 
-  public async hello() {
-    return {
-      code: 0,
-      msg: 'hello world',
+  public async findOneById(id: string) {
+    return await this.userModel.findById(id);
+  }
+
+  public async addUserProject(projectId: string, userid) {
+    const user: User = await this.findOneById(userid);
+    const userProject: IUserProject = {
+      projectId,
+      identify: '项目经理',
     };
+    user.projects.push(userProject);
+    await this.userModel.findByIdAndUpdate(userid, user);
   }
 }

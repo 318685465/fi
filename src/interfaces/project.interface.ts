@@ -45,4 +45,7 @@ export class Project extends Document {
     example: '施工中',
   })
   readonly stage: string;
+
+  @Prop()
+  identify: string;
 }

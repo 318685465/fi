@@ -46,11 +46,14 @@ export class ProjectController {
     return this.projectService.findProjectById(projectId);
   }
 
-  @Get("project")
+  @Get('projects/:id/:page')
   @ApiOperation({
-    summary: "获取所有项目"
+    summary: '根据用户id获取所有项目',
   })
-  public getAllProject(){
-    return this.projectService.getProject();
+  public getAllProject(
+    @Param('id') userid: string,
+    @Param('page') page: number,
+  ) {
+    return this.projectService.getProjectsByUser(userid, page);
   }
 }
