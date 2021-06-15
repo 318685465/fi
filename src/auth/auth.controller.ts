@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { User } from '../interfaces/user.interface';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 @ApiTags('用户验证模块')
@@ -13,7 +14,9 @@ export class AuthController {
   @ApiOperation({
     summary: '用户登录',
   })
+  // @UseGuards(AuthGuard('local'))
   public async userLogin(@Body() userDto: User) {
+    console.log(userDto);
     return await this.authService.login(userDto);
   }
 
@@ -22,7 +25,8 @@ export class AuthController {
     summary: '用户注册',
   })
   async registUser(@Body() userDto: User) {
-    return await this.authService.regist(userDto);
+    return userDto;
+    // return await this.authService.regist(userDto);
   }
 
   @Post('alter')

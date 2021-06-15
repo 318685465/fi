@@ -18,8 +18,8 @@ export class AuthService {
   constructor(
     @InjectModel('USER_MODEL') private readonly userModel: Model<User>,
     private readonly userService: UserService,
-    private jwtService: JwtService,
-  ) {}
+  ) // private jwtService: JwtService,
+  {}
 
   /**
    * @description 用户登录验证
@@ -156,7 +156,7 @@ export class AuthService {
    * @memberof AuthService
    */
   private async createToken(user: User) {
-    return this.jwtService.sign(user);
+    // return this.jwtService.sign(user);
   }
 
   /**
