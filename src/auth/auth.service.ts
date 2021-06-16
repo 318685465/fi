@@ -18,8 +18,8 @@ export class AuthService {
   constructor(
     @InjectModel('USER_MODEL') private readonly userModel: Model<User>,
     private readonly userService: UserService,
-  ) // private jwtService: JwtService,
-  {}
+    private jwtService: JwtService,
+  ) {}
 
   /**
    * @description 用户登录验证
@@ -67,23 +67,29 @@ export class AuthService {
    * @return {*}
    * @memberof AuthService
    */
+  // public async login(user: User) {
+  //   console.log(user);
+  //   return await this.validateUser(user)
+  //     .then(async (res: IResponse) => {
+  //       if (res.code != 0) {
+  //         this.response = res;
+  //         throw this.response;
+  //       }
+  //       const userid = res.msg.userid;
+  //       this.response = {
+  //         code: 0,
+  //         msg: { token: await this.createToken(user), userid },
+  //       };
+  //       return this.response;
+  //     })
+  //     .catch(err => {
+  //       return err;
+  //     });
+  // }
   public async login(user: User) {
-    return await this.validateUser(user)
-      .then(async (res: IResponse) => {
-        if (res.code != 0) {
-          this.response = res;
-          throw this.response;
-        }
-        const userid = res.msg.userid;
-        this.response = {
-          code: 0,
-          msg: { token: await this.createToken(user), userid },
-        };
-        return this.response;
-      })
-      .catch(err => {
-        return err;
-      });
+    return {
+      token: await this.createToken(user),
+    };
   }
 
   /**
@@ -156,7 +162,7 @@ export class AuthService {
    * @memberof AuthService
    */
   private async createToken(user: User) {
-    // return this.jwtService.sign(user);
+    return this.jwtService.sign(String(user._id));
   }
 
   /**
@@ -167,7 +173,6 @@ export class AuthService {
    * @memberof AuthService
    */
   public async createCaptcha(id?: string) {
-    console.log(id);
     if (id != '-1') {
       delete this.captchas[id];
       console.log(`删除了id为${id}的记录`);

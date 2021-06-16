@@ -7,17 +7,17 @@ import { JWT_CONSTANT } from './jwt.constant';
 import { JwtStrategy } from './jwt.strategy';
 import { HashPasswordMiddleware } from 'src/middlewares/hash-password.middleware';
 import { PassportModule } from '@nestjs/passport';
-import { LocalStrategy } from './local.stratery';
+import { LocalStrategy } from './local.strategy';
 
 @Module({
   imports: [
     PassportModule,
-    // JwtModule.register({
-    //   secret: JWT_CONSTANT.secret,
-    // }),
+    JwtModule.register({
+      secret: JWT_CONSTANT.secret,
+    }),
   ],
   // providers: [AuthService, UserService, JwtStrategy, LocalStrategy],
-  providers: [AuthService, UserService, LocalStrategy],
+  providers: [AuthService, UserService, LocalStrategy, JwtStrategy],
   controllers: [AuthController],
 })
 export class AuthModule implements NestModule {

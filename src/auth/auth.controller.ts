@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Req,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { User } from '../interfaces/user.interface';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -10,14 +19,13 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  @UseGuards(AuthGuard('local'))
   @Post('login')
   @ApiOperation({
     summary: '用户登录',
   })
-  // @UseGuards(AuthGuard('local'))
-  public async userLogin(@Body() userDto: User) {
-    console.log(userDto);
-    return await this.authService.login(userDto);
+  public async userLogin(@Body() userDto: User, @Req() req) {
+    return await this.authService.login(req.user);
   }
 
   @Post('regist')
@@ -25,8 +33,8 @@ export class AuthController {
     summary: '用户注册',
   })
   async registUser(@Body() userDto: User) {
-    return userDto;
-    // return await this.authService.regist(userDto);
+    // return userDto;
+    return await this.authService.regist(userDto);
   }
 
   @Post('alter')

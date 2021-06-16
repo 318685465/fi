@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { CurrentUser } from 'src/auth/current-user.decorator';
 import { Project } from 'src/interfaces/project.interface';
 import { ProjectService } from './project.service';
 
@@ -42,7 +43,7 @@ export class ProjectController {
   @ApiOperation({
     summary: '查询项目',
   })
-  public findProject(@Param('id') projectId: string) {
+  public findProject(@Param('id') projectId: string, @CurrentUser() user) {
     return this.projectService.findProjectById(projectId);
   }
 
