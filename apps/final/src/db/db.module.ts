@@ -35,4 +35,4 @@ const MONGO_MODELS = MongooseModule.forFeature([
   ],
   exports: [MONGO_MODELS],
 })
-export class DbModule {}
+export class DbModule1 {}

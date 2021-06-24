@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { UserService } from '../modules/user/user.service';
 import { User } from '../interfaces/user.interface';
 import { encript } from '../utils/encription';
-import { IResponse } from 'src/interfaces/response.interface';
+import { IResponse } from '../interfaces/response.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';

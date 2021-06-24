@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CurrentUser } from 'src/auth/current-user.decorator';
-import { Project } from 'src/interfaces/project.interface';
+import { CurrentUser } from '../../auth/current-user.decorator';
+import { Project } from '../../interfaces/project.interface';
 import { ProjectService } from './project.service';
 
 @Controller('project')

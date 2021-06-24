@@ -1,8 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Project } from 'src/interfaces/project.interface';
-import { IResponse } from 'src/interfaces/response.interface';
+import { Project } from '../../interfaces/project.interface';
+import { IResponse } from '../../interfaces/response.interface';
 import { UserService } from '../user/user.service';
 
 const logger = new Logger('project.service');

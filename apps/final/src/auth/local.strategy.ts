@@ -3,8 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { PassportStrategy } from '@nestjs/passport';
 import { Model } from 'mongoose';
 import { IStrategyOptions, Strategy } from 'passport-local';
-import { User } from 'src/interfaces/user.interface';
-import { encript } from 'src/utils/encription';
+import { User } from '../interfaces/user.interface';
+import { encript } from '../utils/encription';
 
 // @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {

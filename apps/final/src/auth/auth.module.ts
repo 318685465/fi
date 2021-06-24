@@ -5,7 +5,7 @@ import { UserService } from '../modules/user/user.service';
 import { JwtModule } from '@nestjs/jwt';
 import { JWT_CONSTANT } from './jwt.constant';
 import { JwtStrategy } from './jwt.strategy';
-import { HashPasswordMiddleware } from 'src/middlewares/hash-password.middleware';
+import { HashPasswordMiddleware } from '../middlewares/hash-password.middleware';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './local.strategy';
 
