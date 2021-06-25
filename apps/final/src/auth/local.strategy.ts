@@ -1,15 +1,18 @@
+import { User } from '@libs/db/models/user.model';
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
+// import { InjectModel } from '@nestjs/mongoose';
 import { PassportStrategy } from '@nestjs/passport';
+import { ReturnModelType } from '@typegoose/typegoose';
 import { Model } from 'mongoose';
+import { InjectModel } from 'nestjs-typegoose';
 import { IStrategyOptions, Strategy } from 'passport-local';
-import { User } from '../interfaces/user.interface';
+// import { User } from '../interfaces/user.interface';
 import { encript } from '../utils/encription';
 
 // @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(
-    @InjectModel('USER_MODEL') private readonly userModel: Model<User>,
+    @InjectModel(User) private readonly userModel: ReturnModelType<typeof User>,
   ) {
     super({
       usernameField: 'phone',

@@ -1,12 +1,15 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { UserService } from '../modules/user/user.service';
-import { User } from '../interfaces/user.interface';
+// import { User } from '../interfaces/user.interface';
 import { encript } from '../utils/encription';
 import { IResponse } from '../interfaces/response.interface';
-import { InjectModel } from '@nestjs/mongoose';
+// import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
 import * as svgCaptcha from 'svg-captcha';
+import { InjectModel } from 'nestjs-typegoose';
+import { User } from '@libs/db/models/user.model';
+import { ReturnModelType } from '@typegoose/typegoose';
 
 const logger = new Logger('auth.service');
 
@@ -16,7 +19,7 @@ export class AuthService {
   private pointer: number = 0;
   private captchas = {};
   constructor(
-    @InjectModel('USER_MODEL') private readonly userModel: Model<User>,
+    @InjectModel(User) private readonly userModel: ReturnModelType<typeof User>,
     private readonly userService: UserService,
     private jwtService: JwtService,
   ) {}
@@ -43,7 +46,7 @@ export class AuthService {
         }
         return res[0];
       })
-      .then((dbUser: User) => {
+      .then((dbUser: any) => {
         const pass = encript(password, dbUser.salt);
         if (pass === dbUser.password) {
           return (this.response = {
@@ -161,7 +164,7 @@ export class AuthService {
    * @return {*}
    * @memberof AuthService
    */
-  private async createToken(user: User) {
+  private async createToken(user: any) {
     return this.jwtService.sign(String(user._id));
   }
 

@@ -1,7 +1,8 @@
+import { Project } from '@libs/db/models/project.model';
 import { Injectable, Logger } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
+import { ReturnModelType } from '@typegoose/typegoose';
 import { Model } from 'mongoose';
-import { Project } from '../../interfaces/project.interface';
+import { InjectModel } from 'nestjs-typegoose';
 import { IResponse } from '../../interfaces/response.interface';
 import { UserService } from '../user/user.service';
 
@@ -12,7 +13,8 @@ export class ProjectService {
   private response: IResponse;
   private pageSize: number = 8;
   constructor(
-    @InjectModel('PROJECT_MODEL') private readonly projectModel: Model<Project>,
+    @InjectModel(Project)
+    private readonly projectModel: ReturnModelType<typeof Project>,
     private readonly userService: UserService,
   ) {}
 
@@ -108,7 +110,7 @@ export class ProjectService {
     } catch (error) {
       this.response = { code: 7, msg: '查询项目失败' };
     }
-    projects = projects.map(v => {
+    projects = projects.map((v: any) => {
       const date: Date = v._id.getTimestamp();
       v['date'] = date.toLocaleString();
       v['identify'] = identifies[v._id];

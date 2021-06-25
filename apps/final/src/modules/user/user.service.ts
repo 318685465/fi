@@ -1,15 +1,16 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 import { RedisService } from 'nestjs-redis';
-import { IUserProject, User } from '../../interfaces/user.interface';
+import { IUserProject } from '../../interfaces/user.interface';
 import * as Redis from 'ioredis';
+import { User } from '@libs/db/models/user.model';
+import { InjectModel } from 'nestjs-typegoose';
+import { ReturnModelType } from '@typegoose/typegoose';
 
 @Injectable()
 export class UserService {
   private redis: Redis.Redis;
   constructor(
-    @InjectModel('USER_MODEL') private readonly userModel: Model<User>,
+    @InjectModel(User) private readonly userModel: ReturnModelType<typeof User>,
     private readonly redisService: RedisService,
   ) {
     this.redis = this.redisService.getClient('management');

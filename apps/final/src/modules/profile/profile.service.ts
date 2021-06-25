@@ -1,13 +1,17 @@
+import { Profile } from '@libs/db/models/profile.model';
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
+import { ReturnModelType } from '@typegoose/typegoose';
+// import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Profile } from '../../interfaces/profile.interface';
+import { InjectModel } from 'nestjs-typegoose';
+// import { Profile } from '../../interfaces/profile.interface';
 import { CrudService } from '../../utils/v';
 
 @Injectable()
 export class ProfileService extends CrudService {
   constructor(
-    @InjectModel('PROFILE_MODEL') private readonly profileModel: Model<Profile>,
+    @InjectModel(Profile)
+    private readonly profileModel: ReturnModelType<typeof Profile>,
   ) {
     super(profileModel);
   }
